@@ -34,8 +34,11 @@ import { useIOSelector } from "../store/hooks";
 import { isSettingsVisibleAndHideProfileSelector } from "../store/reducers/backendStatus";
 import { IOMarkdownPlayground } from "../screens/profile/playgrounds/IOMarkdownPlayground";
 import ProfileDataAlternativeScreen from "../screens/profile/ProfileDataAlternativeScreen";
-import { ProfileParamsList } from "./params/ProfileParamsList";
+import RemoveAccountInfoAlternative from "../screens/profile/RemoveAccountInfoAlternativeScreen";
+import RemoveAccountDetailsAlternative from "../screens/profile/RemoveAccountDetailsAlternativeScreen";
+import RemoveAccountSuccessAlternative from "../screens/profile/RemoveAccountSuccessAlternativeScreen";
 import ROUTES from "./routes";
+import { ProfileParamsList } from "./params/ProfileParamsList";
 
 const Stack = createStackNavigator<ProfileParamsList>();
 
@@ -191,6 +194,21 @@ const ProfileStackNavigator = () => {
       <Stack.Screen
         name={ROUTES.PROFILE_PREFERENCES_NOTIFICATIONS}
         component={NotificationsPreferencesScreen}
+      />
+      <Stack.Screen
+        name={ROUTES.PROFILE_REMOVE_ACCOUNT_INFO_ALTERNATIVE}
+        component={RemoveAccountInfoAlternative}
+      />
+      <Stack.Screen
+        name={ROUTES.PROFILE_REMOVE_ACCOUNT_DETAILS_ALTERNATIVE}
+        component={RemoveAccountDetailsAlternative}
+      />
+      <Stack.Screen
+        options={{
+          headerShown: false
+        }}
+        name={ROUTES.PROFILE_REMOVE_ACCOUNT_SUCCESS_ALTERNATIVE}
+        component={RemoveAccountSuccessAlternative}
       />
     </Stack.Navigator>
   );

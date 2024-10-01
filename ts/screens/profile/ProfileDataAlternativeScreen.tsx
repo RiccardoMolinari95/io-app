@@ -8,7 +8,7 @@ import {
   ListItemSwitch,
   VSpacer
 } from "@pagopa/io-app-design-system";
-import React, { useMemo } from "react";
+import React, { useCallback, useMemo } from "react";
 import * as pot from "@pagopa/ts-commons/lib/pot";
 import { Alert, View } from "react-native";
 import { capitalize } from "lodash";
@@ -25,6 +25,8 @@ import { profileAlternativeSelector } from "../../store/reducers/profileAlternat
 import { loadUserDataProcessing } from "../../store/actions/userDataProcessing";
 import { UserDataProcessingChoiceEnum } from "../../../definitions/session_manager/UserDataProcessingChoice";
 import { useOnFirstRender } from "../../utils/hooks/useOnFirstRender";
+import ROUTES from "../../navigation/routes";
+import { useIONavigation } from "../../navigation/params/AppParamsList";
 
 const contextualHelpMarkdown: ContextualHelpPropsMarkdown = {
   title: "profile.preferences.contextualHelpTitle",
@@ -32,6 +34,7 @@ const contextualHelpMarkdown: ContextualHelpPropsMarkdown = {
 };
 
 const ProfileDataAlternativeScreen = () => {
+  const { navigate } = useIONavigation();
   const userDataProcessing = useIOSelector(userDataProcessingSelector);
   const profileSelector = useIOSelector(profileAlternativeSelector);
   const dispatch = useIODispatch();
@@ -48,18 +51,22 @@ const ProfileDataAlternativeScreen = () => {
     );
   });
 
+  const handleSwitchValueChange = useCallback(() => {
+    navigate(ROUTES.PROFILE_NAVIGATOR, {
+      screen: ROUTES.PROFILE_REMOVE_ACCOUNT_INFO_ALTERNATIVE
+    });
+  }, [navigate]);
+
   const switchItems = useMemo(
     () => [
       {
         label: I18n.t("profile.data.deletion.status"),
         value: !isNoneDelete && isPendingDelete,
-        onSwitchValueChange: () => {
-          Alert.alert("Alert", "No Action triggered at the moment");
-        },
+        onSwitchValueChange: handleSwitchValueChange,
         disabled: isPendingDelete
       }
     ],
-    [isNoneDelete, isPendingDelete]
+    [isNoneDelete, isPendingDelete, handleSwitchValueChange]
   );
 
   const renderProfileInfo = () => {

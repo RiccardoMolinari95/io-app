@@ -8,6 +8,7 @@ import * as O from "fp-ts/lib/Option";
 import * as pot from "@pagopa/ts-commons/lib/pot";
 import { createSelector } from "reselect";
 import { getType } from "typesafe-actions";
+import { DateFromString } from "@pagopa/ts-commons/lib/dates";
 import { EmailAddress } from "../../../definitions/backend/EmailAddress";
 import { InitializedProfile } from "../../../definitions/backend/InitializedProfile";
 import { capitalize } from "../../utils/strings";
@@ -54,6 +55,10 @@ export const getProfileEmail = (
 export const getProfileSpidEmail = (
   user: InitializedProfile
 ): O.Option<EmailAddress> => O.fromNullable(user.spid_email);
+
+export const getProfileDateOfBirth = (
+  user: InitializedProfile
+): O.Option<DateFromString> => O.fromNullable(user.date_of_birth);
 
 // return the email address (as a string) if the profile pot is some and its value is of kind InitializedProfile and it has an email
 export const profileEmailSelector = createSelector(
@@ -112,6 +117,15 @@ export const hasProfileEmailSelector = createSelector(
     pot.getOrElse(
       pot.map(profile, p => hasProfileEmail(p)),
       false
+    )
+);
+
+export const dateOfBirthSelector = createSelector(
+  profileSelector,
+  (profile: ProfileState): O.Option<DateFromString> =>
+    pot.getOrElse(
+      pot.map(profile, p => getProfileDateOfBirth(p)),
+      O.none
     )
 );
 

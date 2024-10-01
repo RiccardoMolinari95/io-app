@@ -1,9 +1,15 @@
-import { IOStyles, ListItemHeader } from "@pagopa/io-app-design-system";
+import {
+  ButtonSolid,
+  IOStyles,
+  ListItemHeader
+} from "@pagopa/io-app-design-system";
 import * as React from "react";
-import { View } from "react-native";
+import { Alert, View } from "react-native";
 import Animated, { LinearTransition } from "react-native-reanimated";
+import * as pot from "@pagopa/ts-commons/lib/pot";
+import { useCallback } from "react";
 import I18n from "../../../i18n";
-import { useIOSelector } from "../../../store/hooks";
+import { useIODispatch, useIOSelector } from "../../../store/hooks";
 import { isItwEnabledSelector } from "../../../store/reducers/backendStatus";
 import { ItwDiscoveryBanner } from "../../itwallet/common/components/ItwDiscoveryBanner";
 import { itwLifecycleIsValidSelector } from "../../itwallet/lifecycle/store/selectors";
@@ -14,17 +20,54 @@ import {
   selectWalletItwCards,
   selectWalletOtherCards
 } from "../store/selectors";
-import { WalletCardSkeleton } from "./WalletCardSkeleton";
+import { useIONavigation } from "../../../navigation/params/AppParamsList";
+import { userDataProcessingSelector } from "../../../store/reducers/userDataProcessing";
+import ROUTES from "../../../navigation/routes";
+import { UserDataProcessingStatusEnum } from "../../../../definitions/backend/UserDataProcessingStatus";
+import { UserDataProcessingChoiceEnum } from "../../../../definitions/backend/UserDataProcessingChoice";
+import { deleteUserDataProcessing } from "../../../store/actions/userDataProcessing";
+import { WalletEmptyScreenContent } from "./WalletEmptyScreenContent";
 import {
   WalletCardsCategoryContainer,
   WalletCardsCategoryContainerProps
 } from "./WalletCardsCategoryContainer";
-import { WalletEmptyScreenContent } from "./WalletEmptyScreenContent";
+import { WalletCardSkeleton } from "./WalletCardSkeleton";
 
 const WalletCardsContainer = () => {
   const isLoading = useIOSelector(selectIsWalletCardsLoading);
   const cards = useIOSelector(selectSortedWalletCards);
   const stackCards = cards.length > 4;
+  const { navigate } = useIONavigation();
+  const dispatch = useIODispatch();
+  const userDataProcessing = useIOSelector(userDataProcessingSelector);
+  const isPendingDelete =
+    pot.isSome(userDataProcessing.DELETE) &&
+    userDataProcessing.DELETE.value?.status ===
+      UserDataProcessingStatusEnum.PENDING;
+
+  const handleRecoverAccountAlert = useCallback(() => {
+    Alert.alert(
+      I18n.t("profile.main.privacy.removeAccount.alert.oldRequest"),
+      I18n.t("profile.main.privacy.removeAccount.alert.oldRequestSubtitle"),
+      [
+        {
+          text: I18n.t("profile.main.privacy.removeAccount.alert.cta.return"),
+          style: "cancel"
+        },
+        {
+          text: I18n.t("profile.main.privacy.removeAccount.alert.cta.cancel"),
+          style: "destructive",
+          onPress: () => {
+            dispatch(
+              deleteUserDataProcessing.request(
+                UserDataProcessingChoiceEnum.DELETE
+              )
+            );
+          }
+        }
+      ]
+    );
+  }, [dispatch]);
 
   if (isLoading && cards.length === 0) {
     return (
@@ -48,6 +91,23 @@ const WalletCardsContainer = () => {
       layout={LinearTransition.duration(200)}
     >
       <View testID="walletCardsContainerTestID">
+        {isPendingDelete ? (
+          <ButtonSolid
+            label={I18n.t("profile.main.privacy.removeAccount.recover")}
+            color="primary"
+            onPress={handleRecoverAccountAlert}
+          />
+        ) : (
+          <ButtonSolid
+            label={I18n.t("profile.main.privacy.removeAccount.details.cta")}
+            color="danger"
+            onPress={() =>
+              navigate(ROUTES.PROFILE_NAVIGATOR, {
+                screen: ROUTES.PROFILE_REMOVE_ACCOUNT_INFO_ALTERNATIVE
+              })
+            }
+          />
+        )}
         <ItwCardsContainer isStacked={stackCards} />
         <OtherCardsContainer isStacked={stackCards} />
       </View>

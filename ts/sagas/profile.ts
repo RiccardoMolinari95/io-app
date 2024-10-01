@@ -33,6 +33,7 @@ import {
   profileLoadSuccess,
   profileUpsert,
   removeAccountMotivation,
+  requestAccountDeletion,
   startEmailValidation
 } from "../store/actions/profile";
 import { upsertUserDataProcessing } from "../store/actions/userDataProcessing";
@@ -434,6 +435,8 @@ export function* watchProfile(
   );
   // Start watching for request of remove profile
   yield* takeLatest(removeAccountMotivation, handleRemoveAccount);
+
+  yield* takeLatest(requestAccountDeletion, handleRemoveAccount);
 }
 
 /**
