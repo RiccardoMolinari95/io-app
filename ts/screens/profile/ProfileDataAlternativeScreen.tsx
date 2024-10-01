@@ -10,7 +10,7 @@ import {
 } from "@pagopa/io-app-design-system";
 import React, { useCallback, useMemo } from "react";
 import * as pot from "@pagopa/ts-commons/lib/pot";
-import { Alert, View } from "react-native";
+import { View } from "react-native";
 import { capitalize } from "lodash";
 import { ContextualHelpPropsMarkdown } from "../../components/screens/BaseScreenComponent";
 import { IOScrollViewWithLargeHeader } from "../../components/ui/IOScrollViewWithLargeHeader";
