@@ -3,21 +3,28 @@ import {
   ContentWrapper,
   Divider,
   H4,
+  ListItemHeader,
   ListItemInfo,
+  ListItemSwitch,
   VSpacer
 } from "@pagopa/io-app-design-system";
-import React, { useEffect } from "react";
+import React, { useMemo } from "react";
 import * as pot from "@pagopa/ts-commons/lib/pot";
-import { View } from "react-native";
+import { Alert, View } from "react-native";
 import { capitalize } from "lodash";
 import { ContextualHelpPropsMarkdown } from "../../components/screens/BaseScreenComponent";
 import { IOScrollViewWithLargeHeader } from "../../components/ui/IOScrollViewWithLargeHeader";
 import I18n from "../../i18n";
 import { useIODispatch, useIOSelector } from "../../store/hooks";
+import { userDataProcessingSelector } from "../../store/reducers/userDataProcessing";
+import { UserDataProcessingStatusEnum } from "../../../definitions/backend/UserDataProcessingStatus";
 import { formatDateAsLocal } from "../../utils/dates";
 import LoadingSpinnerOverlay from "../../components/LoadingSpinnerOverlay";
-import { profileAlternativeSelector } from "../../store/reducers/profileAlternative";
 import { profileAlternativeLoadRequest } from "../../store/actions/profileAlternative";
+import { profileAlternativeSelector } from "../../store/reducers/profileAlternative";
+import { loadUserDataProcessing } from "../../store/actions/userDataProcessing";
+import { UserDataProcessingChoiceEnum } from "../../../definitions/session_manager/UserDataProcessingChoice";
+import { useOnFirstRender } from "../../utils/hooks/useOnFirstRender";
 
 const contextualHelpMarkdown: ContextualHelpPropsMarkdown = {
   title: "profile.preferences.contextualHelpTitle",
@@ -25,14 +32,37 @@ const contextualHelpMarkdown: ContextualHelpPropsMarkdown = {
 };
 
 const ProfileDataAlternativeScreen = () => {
+  const userDataProcessing = useIOSelector(userDataProcessingSelector);
   const profileSelector = useIOSelector(profileAlternativeSelector);
   const dispatch = useIODispatch();
+  const isNoneDelete = pot.isNone(userDataProcessing.DELETE);
+  const isPendingDelete =
+    pot.isSome(userDataProcessing.DELETE) &&
+    userDataProcessing.DELETE.value?.status ===
+      UserDataProcessingStatusEnum.PENDING;
 
-  useEffect(() => {
+  useOnFirstRender(() => {
     dispatch(profileAlternativeLoadRequest());
-  }, [dispatch]);
+    dispatch(
+      loadUserDataProcessing.request(UserDataProcessingChoiceEnum.DELETE)
+    );
+  });
 
-  const renderProfileData = () => {
+  const switchItems = useMemo(
+    () => [
+      {
+        label: I18n.t("profile.data.deletion.status"),
+        value: !isNoneDelete && isPendingDelete,
+        onSwitchValueChange: () => {
+          Alert.alert("Alert", "No Action triggered at the moment");
+        },
+        disabled: isPendingDelete
+      }
+    ],
+    [isNoneDelete, isPendingDelete]
+  );
+
+  const renderProfileInfo = () => {
     if (pot.isLoading(profileSelector)) {
       return (
         <>
@@ -119,7 +149,22 @@ const ProfileDataAlternativeScreen = () => {
       headerActionsProp={{ showHelp: true }}
       contextualHelpMarkdown={contextualHelpMarkdown}
     >
-      <ContentWrapper>{renderProfileData()}</ContentWrapper>
+      <ContentWrapper>
+        {renderProfileInfo()}
+        <Divider />
+        <VSpacer size={24} />
+        <ListItemHeader label={I18n.t("profile.data.deletion.title")} />
+        <LoadingSpinnerOverlay isLoading={isPendingDelete} />
+        {switchItems.map((item, index) => (
+          <ListItemSwitch
+            key={index}
+            label={item.label}
+            value={item.value}
+            onSwitchValueChange={item.onSwitchValueChange}
+            disabled={item.disabled}
+          />
+        ))}
+      </ContentWrapper>
     </IOScrollViewWithLargeHeader>
   );
 };
