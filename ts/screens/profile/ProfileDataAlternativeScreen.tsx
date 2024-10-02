@@ -63,7 +63,8 @@ const ProfileDataAlternativeScreen = () => {
         label: I18n.t("profile.data.deletion.status"),
         value: !isNoneDelete && isPendingDelete,
         onSwitchValueChange: handleSwitchValueChange,
-        disabled: isPendingDelete
+        disabled: isPendingDelete,
+        switchTestID: "toDeleteProfile"
       }
     ],
     [isNoneDelete, isPendingDelete, handleSwitchValueChange]
@@ -169,6 +170,7 @@ const ProfileDataAlternativeScreen = () => {
             value={item.value}
             onSwitchValueChange={item.onSwitchValueChange}
             disabled={item.disabled}
+            switchTestID={item.switchTestID}
           />
         ))}
       </ContentWrapper>
