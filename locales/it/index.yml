@@ -492,6 +492,9 @@ profile:
     loading: In attesa del caricamento dei dati 
     error: Errore nel caricamento dei dati 
     retry: Ricarica i dati
+    deletion:
+      title: Cancellazione profilo
+      status: Stato cancellazione
     list:
       email: Indirizzo email
       need_validate: Da validare

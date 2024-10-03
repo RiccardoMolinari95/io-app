@@ -492,6 +492,9 @@ profile:
     loading: Awaiting for data upload
     error: Error in loading data 
     retry: Reload data
+    deletion:
+      title: Profile deletion
+      status: Deletion status  
     list:
       email: Email address
       need_validate: To be validated

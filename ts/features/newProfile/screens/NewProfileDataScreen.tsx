@@ -3,12 +3,14 @@ import {
   ContentWrapper,
   Divider,
   H4,
+  ListItemHeader,
   ListItemInfo,
+  ListItemSwitch,
   VSpacer
 } from "@pagopa/io-app-design-system";
-import React, { useEffect } from "react";
+import React, { useEffect, useMemo } from "react";
 import * as pot from "@pagopa/ts-commons/lib/pot";
-import { View } from "react-native";
+import { Alert, View } from "react-native";
 import { capitalize } from "lodash";
 import { useIODispatch, useIOSelector } from "../../../store/hooks";
 import { ContextualHelpPropsMarkdown } from "../../../components/screens/BaseScreenComponent";
@@ -18,6 +20,8 @@ import { formatDateAsLocal } from "../../../utils/dates";
 import { IOScrollViewWithLargeHeader } from "../../../components/ui/IOScrollViewWithLargeHeader";
 import { newProfileLoadRequest } from "../store/actions/newProfile";
 import I18n from "../../../i18n";
+import { userDataProcessingSelector } from "../../../store/reducers/userDataProcessing";
+import { UserDataProcessingStatusEnum } from "../../../../definitions/backend/UserDataProcessingStatus";
 
 const contextualHelpMarkdown: ContextualHelpPropsMarkdown = {
   title: "profile.preferences.contextualHelpTitle",
@@ -26,13 +30,33 @@ const contextualHelpMarkdown: ContextualHelpPropsMarkdown = {
 
 const NewProfileDataScreen = () => {
   const profileSelector = useIOSelector(newProfileSelector);
+  const userDataProcessing = useIOSelector(userDataProcessingSelector);
   const dispatch = useIODispatch();
+  const isNoneDelete = pot.isNone(userDataProcessing.DELETE);
+  const isPendingDelete =
+    pot.isSome(userDataProcessing.DELETE) &&
+    userDataProcessing.DELETE.value?.status ===
+      UserDataProcessingStatusEnum.PENDING;
 
   useEffect(() => {
     dispatch(newProfileLoadRequest());
   }, [dispatch]);
 
-  const renderProfileData = () => {
+  const switchItems = useMemo(
+    () => [
+      {
+        label: I18n.t("profile.data.deletion.status"),
+        value: !isNoneDelete && isPendingDelete,
+        onSwitchValueChange: () => {
+          Alert.alert("Alert", "No Action triggered at the moment");
+        },
+        disabled: isPendingDelete
+      }
+    ],
+    [isNoneDelete, isPendingDelete]
+  );
+
+  const renderProfileInfo = () => {
     if (pot.isLoading(profileSelector)) {
       return (
         <>
@@ -58,10 +82,9 @@ const NewProfileDataScreen = () => {
     }
 
     if (pot.isSome(profileSelector) && profileSelector.value) {
+
       const profile = profileSelector.value;
-      const nameAndSurname = capitalize(
-        `${profile.name} ${profile.familyName}`
-      );
+      const nameAndSurname = capitalize(`${profile.name} ${profile.familyName}`);
       const fiscalCode = profile.fiscalCode;
       const email = profile.email;
       const birthDate = profile.dateOfBirth;
@@ -119,7 +142,22 @@ const NewProfileDataScreen = () => {
       headerActionsProp={{ showHelp: true }}
       contextualHelpMarkdown={contextualHelpMarkdown}
     >
-      <ContentWrapper>{renderProfileData()}</ContentWrapper>
+      <ContentWrapper>
+        {renderProfileInfo()}
+        <Divider />
+        <VSpacer size={24} />
+        <ListItemHeader label={I18n.t("profile.data.deletion.title")} />
+        <LoadingSpinnerOverlay isLoading={isPendingDelete} />
+        {switchItems.map((item, index) => (
+          <ListItemSwitch
+            key={index}
+            label={item.label}
+            value={item.value}
+            onSwitchValueChange={item.onSwitchValueChange}
+            disabled={item.disabled}
+          />
+        ))}
+      </ContentWrapper>
     </IOScrollViewWithLargeHeader>
   );
 };
