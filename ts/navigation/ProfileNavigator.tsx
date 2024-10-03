@@ -33,7 +33,7 @@ import ProfileMainScreen from "../screens/profile/ProfileMainScreen";
 import { useIOSelector } from "../store/hooks";
 import { isSettingsVisibleAndHideProfileSelector } from "../store/reducers/backendStatus";
 import { IOMarkdownPlayground } from "../screens/profile/playgrounds/IOMarkdownPlayground";
-import ProfileDataAlternativeScreen from "../screens/profile/ProfileDataAlternativeScreen";
+import NewProfileDataScreen from "../features/newProfile/components/NewProfileDataScreen";
 import { ProfileParamsList } from "./params/ProfileParamsList";
 import ROUTES from "./routes";
 
@@ -65,8 +65,8 @@ const ProfileStackNavigator = () => {
       )}
       <Stack.Screen name={ROUTES.PROFILE_DATA} component={ProfileDataScreen} />
       <Stack.Screen
-        name={ROUTES.PROFILE_DATA_ALTERNATIVE}
-        component={ProfileDataAlternativeScreen}
+        name={ROUTES.NEW_PROFILE_DATA}
+        component={NewProfileDataScreen}
       />
       <Stack.Screen
         name={ROUTES.PROFILE_PRIVACY_MAIN}

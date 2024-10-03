@@ -10,26 +10,26 @@ import React, { useEffect } from "react";
 import * as pot from "@pagopa/ts-commons/lib/pot";
 import { View } from "react-native";
 import { capitalize } from "lodash";
-import { ContextualHelpPropsMarkdown } from "../../components/screens/BaseScreenComponent";
-import { IOScrollViewWithLargeHeader } from "../../components/ui/IOScrollViewWithLargeHeader";
-import I18n from "../../i18n";
-import { useIODispatch, useIOSelector } from "../../store/hooks";
-import { formatDateAsLocal } from "../../utils/dates";
-import LoadingSpinnerOverlay from "../../components/LoadingSpinnerOverlay";
-import { profileAlternativeSelector } from "../../store/reducers/profileAlternative";
-import { profileAlternativeLoadRequest } from "../../store/actions/profileAlternative";
+import { useIODispatch, useIOSelector } from "../../../store/hooks";
+import { ContextualHelpPropsMarkdown } from "../../../components/screens/BaseScreenComponent";
+import { newProfileSelector } from "../store/reducers/newProfile";
+import LoadingSpinnerOverlay from "../../../components/LoadingSpinnerOverlay";
+import { formatDateAsLocal } from "../../../utils/dates";
+import { IOScrollViewWithLargeHeader } from "../../../components/ui/IOScrollViewWithLargeHeader";
+import { newProfileLoadRequest } from "../store/actions/newProfile";
+import I18n from "../../../i18n";
 
 const contextualHelpMarkdown: ContextualHelpPropsMarkdown = {
   title: "profile.preferences.contextualHelpTitle",
   body: "profile.preferences.contextualHelpContent"
 };
 
-const ProfileDataAlternativeScreen = () => {
-  const profileSelector = useIOSelector(profileAlternativeSelector);
+const NewProfileDataScreen = () => {
+  const profileSelector = useIOSelector(newProfileSelector);
   const dispatch = useIODispatch();
 
   useEffect(() => {
-    dispatch(profileAlternativeLoadRequest());
+    dispatch(newProfileLoadRequest());
   }, [dispatch]);
 
   const renderProfileData = () => {
@@ -50,7 +50,7 @@ const ProfileDataAlternativeScreen = () => {
           <ButtonSolid
             label={I18n.t("profile.data.retry")}
             color="primary"
-            onPress={() => dispatch(profileAlternativeLoadRequest())}
+            onPress={() => dispatch(newProfileLoadRequest())}
           />
           <VSpacer size={32} />
         </>
@@ -60,11 +60,11 @@ const ProfileDataAlternativeScreen = () => {
     if (pot.isSome(profileSelector) && profileSelector.value) {
       const profile = profileSelector.value;
       const nameAndSurname = capitalize(
-        `${profile.name} ${profile.family_name}`
+        `${profile.name} ${profile.familyName}`
       );
-      const fiscalCode = profile.fiscal_code;
+      const fiscalCode = profile.fiscalCode;
       const email = profile.email;
-      const birthDate = profile.date_of_birth;
+      const birthDate = profile.dateOfBirth;
 
       return (
         <View>
@@ -82,7 +82,7 @@ const ProfileDataAlternativeScreen = () => {
               label={I18n.t("profile.data.list.fiscalCode")}
               icon={"creditCard"}
               testID="show-fiscal-code"
-              value={profile.fiscal_code}
+              value={profile.fiscalCode}
             />
           )}
           <Divider />
@@ -124,4 +124,4 @@ const ProfileDataAlternativeScreen = () => {
   );
 };
 
-export default ProfileDataAlternativeScreen;
+export default NewProfileDataScreen;

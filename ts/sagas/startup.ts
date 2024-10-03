@@ -115,6 +115,7 @@ import {
 import { checkNotificationsPreferencesSaga } from "../features/pushNotifications/sagas/checkNotificationsPreferencesSaga";
 import { cancellAllLocalNotifications } from "../features/pushNotifications/utils";
 import { handleApplicationStartupTransientError } from "../features/startup/sagas";
+import { watchNewProfileRequest } from "../features/newProfile/sagas";
 import {
   clearKeychainError,
   keychainError
@@ -157,7 +158,6 @@ import { checkItWalletIdentitySaga } from "./startup/checkItWalletIdentitySaga";
 import { watchUserDataProcessingSaga } from "./user/userDataProcessing";
 import { watchWalletSaga } from "./wallet";
 import { watchProfileEmailValidationChangedSaga } from "./watchProfileEmailValidationChangedSaga";
-import { watchProfileRequest } from "./profileAlternative";
 
 export const WAIT_INITIALIZE_SAGA = 5000 as Millisecond;
 const navigatorPollingTime = 125 as Millisecond;
@@ -426,8 +426,8 @@ export function* initializeApplicationSaga(
   // Start watching for requests of refresh the profile
   yield* fork(watchProfileRefreshRequestsSaga, backendClient.getProfile);
 
-  // Start watching for requests of alternative profile
-  yield* fork(watchProfileRequest, backendClient.getProfileAlternative);
+  // Start watching for requests of new profile
+  yield* fork(watchNewProfileRequest, backendClient.getNewProfile);
 
   // Start watching for requests about session and support token
   yield* fork(
