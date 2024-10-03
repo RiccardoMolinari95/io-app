@@ -20,11 +20,11 @@ import {
   isSettingsVisibleAndHideProfileSelector
 } from "../store/reducers/backendStatus";
 import { StartupStatusEnum, isStartupLoaded } from "../store/reducers/startup";
-import NewProfileDataScreen from "../features/newProfile/components/NewProfileDataScreen";
 import {
   isDesignSystemEnabledSelector,
   isNewProfilePageEnabledSelector
 } from "../store/reducers/persistedPreferences";
+import NewProfileDataScreen from "../features/newProfile/screens/NewProfileDataScreen";
 import { HeaderFirstLevelHandler } from "./components/HeaderFirstLevelHandler";
 import { useIONavigation } from "./params/AppParamsList";
 import { MainTabParamsList } from "./params/MainTabParamsList";

@@ -33,7 +33,7 @@ import ProfileMainScreen from "../screens/profile/ProfileMainScreen";
 import { useIOSelector } from "../store/hooks";
 import { isSettingsVisibleAndHideProfileSelector } from "../store/reducers/backendStatus";
 import { IOMarkdownPlayground } from "../screens/profile/playgrounds/IOMarkdownPlayground";
-import NewProfileDataScreen from "../features/newProfile/components/NewProfileDataScreen";
+import NewProfileDataScreen from "../features/newProfile/screens/NewProfileDataScreen";
 import { ProfileParamsList } from "./params/ProfileParamsList";
 import ROUTES from "./routes";
 
