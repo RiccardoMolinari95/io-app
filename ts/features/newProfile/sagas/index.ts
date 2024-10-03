@@ -1,10 +1,7 @@
-import * as O from "fp-ts/lib/Option";
 import * as E from "fp-ts/lib/Either";
 import { call, put, takeLatest } from "typed-redux-saga/macro";
 import { getType } from "typesafe-actions";
 import { ReduxSagaEffect, SagaCallReturnType } from "../../../types/utils";
-import { withRefreshApiCall } from "../../fastLogin/saga/utils";
-import { readablePrivacyReport } from "../../../utils/reporters";
 import { convertUnknownToError } from "../../../utils/errors";
 import { BackendClient } from "../../../api/backend";
 import {
@@ -14,24 +11,17 @@ import {
 } from "../store/actions/newProfile";
 import NewProfileData from "../types";
 
-export function* loadNewProfile(
-  getNewProfile: ReturnType<typeof BackendClient>["getNewProfile"]
-): Generator<
-  ReduxSagaEffect,
-  O.Option<NewProfileData>,
-  SagaCallReturnType<typeof getNewProfile>
-> {
+export function* loadNewProfile(getNewProfile: BackendClient["getNewProfile"]) {
   try {
-    const response = (yield* call(
-      withRefreshApiCall,
-      getNewProfile({})
-    )) as unknown as SagaCallReturnType<typeof getNewProfile>;
+    const response = yield* call(getNewProfile, {});
 
     if (E.isLeft(response)) {
-      throw Error(readablePrivacyReport(response.left));
+      throw new Error("Something went wrong");
     }
+
     if (response.right.status === 200) {
       const responseData = response.right.value;
+
       const newProfileData: NewProfileData = {
         name: responseData.name,
         familyName: responseData.family_name,
@@ -41,15 +31,12 @@ export function* loadNewProfile(
           ? new Date(responseData.date_of_birth)
           : undefined
       };
-      yield* put(newProfileLoadSuccess(newProfileData));
-      return O.some(newProfileData);
-    }
 
-    throw Error(`response status ${response.right.status}`);
-  } catch (e) {
-    yield* put(newProfileLoadFailure(convertUnknownToError(e)));
+      yield* put(newProfileLoadSuccess(newProfileData));
+    }
+  } catch (error) {
+    yield* put(newProfileLoadFailure(convertUnknownToError(error)));
   }
-  return O.none;
 }
 
 export function* watchNewProfileRequest(
