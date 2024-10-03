@@ -1,7 +1,7 @@
 import * as E from "fp-ts/lib/Either";
 import { call, put, takeLatest } from "typed-redux-saga/macro";
 import { getType } from "typesafe-actions";
-import { ReduxSagaEffect, SagaCallReturnType } from "../../../types/utils";
+import { ReduxSagaEffect } from "../../../types/utils";
 import { convertUnknownToError } from "../../../utils/errors";
 import { BackendClient } from "../../../api/backend";
 import {
