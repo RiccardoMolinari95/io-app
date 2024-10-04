@@ -6,6 +6,7 @@ export const BackendClient = {
   getMessages: jest.fn(),
   getSession: jest.fn(),
   getService: jest.fn(),
+  getNewProfile: jest.fn(),
   getThirdPartyMessagePrecondition: jest.fn(),
   upsertMessageStatusAttributes: jest.fn()
 };

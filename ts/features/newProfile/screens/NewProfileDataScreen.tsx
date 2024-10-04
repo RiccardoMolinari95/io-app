@@ -8,35 +8,32 @@ import {
   ListItemSwitch,
   VSpacer
 } from "@pagopa/io-app-design-system";
-import React, { useCallback, useMemo } from "react";
+import React, { useCallback, useEffect, useMemo } from "react";
 import * as pot from "@pagopa/ts-commons/lib/pot";
 import { View } from "react-native";
 import { capitalize } from "lodash";
-import { ContextualHelpPropsMarkdown } from "../../components/screens/BaseScreenComponent";
-import { IOScrollViewWithLargeHeader } from "../../components/ui/IOScrollViewWithLargeHeader";
-import I18n from "../../i18n";
-import { useIODispatch, useIOSelector } from "../../store/hooks";
-import { userDataProcessingSelector } from "../../store/reducers/userDataProcessing";
-import { UserDataProcessingStatusEnum } from "../../../definitions/backend/UserDataProcessingStatus";
-import { formatDateAsLocal } from "../../utils/dates";
-import LoadingSpinnerOverlay from "../../components/LoadingSpinnerOverlay";
-import { profileAlternativeLoadRequest } from "../../store/actions/profileAlternative";
-import { profileAlternativeSelector } from "../../store/reducers/profileAlternative";
-import { loadUserDataProcessing } from "../../store/actions/userDataProcessing";
-import { UserDataProcessingChoiceEnum } from "../../../definitions/session_manager/UserDataProcessingChoice";
-import { useOnFirstRender } from "../../utils/hooks/useOnFirstRender";
-import ROUTES from "../../navigation/routes";
-import { useIONavigation } from "../../navigation/params/AppParamsList";
+import { useIODispatch, useIOSelector } from "../../../store/hooks";
+import { ContextualHelpPropsMarkdown } from "../../../components/screens/BaseScreenComponent";
+import { newProfileSelector } from "../store/reducers/newProfile";
+import LoadingSpinnerOverlay from "../../../components/LoadingSpinnerOverlay";
+import { formatDateAsLocal } from "../../../utils/dates";
+import { IOScrollViewWithLargeHeader } from "../../../components/ui/IOScrollViewWithLargeHeader";
+import { newProfileLoadRequest } from "../store/actions/newProfile";
+import I18n from "../../../i18n";
+import { userDataProcessingSelector } from "../../../store/reducers/userDataProcessing";
+import { UserDataProcessingStatusEnum } from "../../../../definitions/backend/UserDataProcessingStatus";
+import ROUTES from "../../../navigation/routes";
+import { useIONavigation } from "../../../navigation/params/AppParamsList";
 
 const contextualHelpMarkdown: ContextualHelpPropsMarkdown = {
   title: "profile.preferences.contextualHelpTitle",
   body: "profile.preferences.contextualHelpContent"
 };
 
-const ProfileDataAlternativeScreen = () => {
+const NewProfileDataScreen = () => {
   const { navigate } = useIONavigation();
+  const profileSelector = useIOSelector(newProfileSelector);
   const userDataProcessing = useIOSelector(userDataProcessingSelector);
-  const profileSelector = useIOSelector(profileAlternativeSelector);
   const dispatch = useIODispatch();
   const isNoneDelete = pot.isNone(userDataProcessing.DELETE);
   const isPendingDelete =
@@ -44,16 +41,13 @@ const ProfileDataAlternativeScreen = () => {
     userDataProcessing.DELETE.value?.status ===
       UserDataProcessingStatusEnum.PENDING;
 
-  useOnFirstRender(() => {
-    dispatch(profileAlternativeLoadRequest());
-    dispatch(
-      loadUserDataProcessing.request(UserDataProcessingChoiceEnum.DELETE)
-    );
-  });
+  useEffect(() => {
+    dispatch(newProfileLoadRequest());
+  }, [dispatch]);
 
   const handleSwitchValueChange = useCallback(() => {
     navigate(ROUTES.PROFILE_NAVIGATOR, {
-      screen: ROUTES.PROFILE_REMOVE_ACCOUNT_INFO_ALTERNATIVE
+      screen: ROUTES.NEW_PROFILE_REMOVE_ACCOUNT_INFO
     });
   }, [navigate]);
 
@@ -87,7 +81,7 @@ const ProfileDataAlternativeScreen = () => {
           <ButtonSolid
             label={I18n.t("profile.data.retry")}
             color="primary"
-            onPress={() => dispatch(profileAlternativeLoadRequest())}
+            onPress={() => dispatch(newProfileLoadRequest())}
           />
           <VSpacer size={32} />
         </>
@@ -97,11 +91,11 @@ const ProfileDataAlternativeScreen = () => {
     if (pot.isSome(profileSelector) && profileSelector.value) {
       const profile = profileSelector.value;
       const nameAndSurname = capitalize(
-        `${profile.name} ${profile.family_name}`
+        `${profile.name} ${profile.familyName}`
       );
-      const fiscalCode = profile.fiscal_code;
+      const fiscalCode = profile.fiscalCode;
       const email = profile.email;
-      const birthDate = profile.date_of_birth;
+      const birthDate = profile.dateOfBirth;
 
       return (
         <View>
@@ -119,7 +113,7 @@ const ProfileDataAlternativeScreen = () => {
               label={I18n.t("profile.data.list.fiscalCode")}
               icon={"creditCard"}
               testID="show-fiscal-code"
-              value={profile.fiscal_code}
+              value={profile.fiscalCode}
             />
           )}
           <Divider />
@@ -176,4 +170,4 @@ const ProfileDataAlternativeScreen = () => {
   );
 };
 
-export default ProfileDataAlternativeScreen;
+export default NewProfileDataScreen;

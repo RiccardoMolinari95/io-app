@@ -20,8 +20,8 @@ import { requestWriteCalendarPermission } from "../../utils/permission";
 import { checkAndRequestPermission } from "../../utils/calendar";
 import { openAppSettings } from "../../utils/appSettings";
 import { useIODispatch, useIOSelector } from "../../store/hooks";
-import { preferencesAlternativeProfilePageEnabled } from "../../store/actions/persistedPreferences";
-import { isAlternativeProfilePageEnabledSelector } from "../../store/reducers/persistedPreferences";
+import { isNewProfilePageEnabledSelector } from "../../store/reducers/persistedPreferences";
+import { preferencesNewProfilePageEnabled } from "../../store/actions/persistedPreferences";
 
 type PreferencesNavListItem = {
   value: string;
@@ -38,8 +38,8 @@ const contextualHelpMarkdown: ContextualHelpPropsMarkdown = {
 const PreferencesScreen = () => {
   const navigation = useIONavigation();
   const dispatch = useIODispatch();
-  const isAlternativeProfilePageEnabled = useIOSelector(
-    isAlternativeProfilePageEnabledSelector
+  const isNewProfilePageEnabled = useIOSelector(
+    isNewProfilePageEnabledSelector
   );
 
   const navigateToServicePreferenceScreen = useCallback(() => {
@@ -151,8 +151,8 @@ const PreferencesScreen = () => {
   const onNewProfilePageToggle = useCallback(
     (enabled: boolean) => {
       dispatch(
-        preferencesAlternativeProfilePageEnabled({
-          isAlternativeProfilePageEnabled: enabled
+        preferencesNewProfilePageEnabled({
+          isNewProfilePageEnabled: enabled
         })
       );
     },
@@ -163,11 +163,11 @@ const PreferencesScreen = () => {
     () => [
       {
         label: I18n.t("profile.preferences.list.newProfilePage.title"),
-        value: isAlternativeProfilePageEnabled,
+        value: isNewProfilePageEnabled,
         onSwitchValueChange: onNewProfilePageToggle
       }
     ],
-    [isAlternativeProfilePageEnabled, onNewProfilePageToggle]
+    [isNewProfilePageEnabled, onNewProfilePageToggle]
   );
 
   const renderPreferencesNavItem = ({

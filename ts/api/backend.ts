@@ -377,7 +377,7 @@ export function BackendClient(
       createFetchRequestForApi(upsertMessageStatusAttributesT, options)
     ),
     getProfile: withBearerToken(createFetchRequestForApi(getProfileT, options)),
-    getProfileAlternative: withBearerToken(
+    getNewProfile: withBearerToken(
       createFetchRequestForApi(getProfileT, options)
     ),
     createOrUpdateProfile: withBearerToken(

@@ -1,14 +1,14 @@
 import React, { useMemo } from "react";
-import I18n from "../../i18n";
-import ROUTES from "../../navigation/routes";
-import { useIONavigation } from "../../navigation/params/AppParamsList";
-import { OperationResultScreenContent } from "../../components/screens/OperationResultScreenContent";
+import I18n from "../../../i18n";
+import ROUTES from "../../../navigation/routes";
+import { OperationResultScreenContent } from "../../../components/screens/OperationResultScreenContent";
+import { useIONavigation } from "../../../navigation/params/AppParamsList";
 
 /**
  * A screen to explain how the account removal works.
  * Here user can ask to delete his account
  */
-const RemoveAccountSuccessAlternative = () => {
+const NewProfileRemoveAccountSuccessScreen = () => {
   const { navigate } = useIONavigation();
 
   const actions = useMemo(
@@ -34,4 +34,4 @@ const RemoveAccountSuccessAlternative = () => {
   );
 };
 
-export default RemoveAccountSuccessAlternative;
+export default NewProfileRemoveAccountSuccessScreen;

@@ -19,12 +19,12 @@ import {
   isNewPaymentSectionEnabledSelector,
   isSettingsVisibleAndHideProfileSelector
 } from "../store/reducers/backendStatus";
-import {
-  isAlternativeProfilePageEnabledSelector,
-  isDesignSystemEnabledSelector
-} from "../store/reducers/persistedPreferences";
 import { StartupStatusEnum, isStartupLoaded } from "../store/reducers/startup";
-import ProfileDataAlternativeScreen from "../screens/profile/ProfileDataAlternativeScreen";
+import {
+  isDesignSystemEnabledSelector,
+  isNewProfilePageEnabledSelector
+} from "../store/reducers/persistedPreferences";
+import NewProfileDataScreen from "../features/newProfile/screens/NewProfileDataScreen";
 import { HeaderFirstLevelHandler } from "./components/HeaderFirstLevelHandler";
 import { useIONavigation } from "./params/AppParamsList";
 import { MainTabParamsList } from "./params/MainTabParamsList";
@@ -51,8 +51,9 @@ export const MainTabNavigator = () => {
   };
 
   const tabBarStyle = useBottomTabNavigatorStyle();
-  const isAlternativeProfilePageEnabled = useIOSelector(
-    isAlternativeProfilePageEnabledSelector
+
+  const isNewProfilePageEnabled = useIOSelector(
+    isNewProfilePageEnabledSelector
   );
 
   return (
@@ -169,10 +170,10 @@ export const MainTabNavigator = () => {
             )
           }}
         />
-        {isAlternativeProfilePageEnabled && (
+        {isNewProfilePageEnabled && (
           <Tab.Screen
             name={ROUTES.PROFILE_MAIN}
-            component={ProfileDataAlternativeScreen}
+            component={NewProfileDataScreen}
             options={{
               title: I18n.t("global.navigator.profile"),
               tabBarIcon: ({ color, focused }) => (

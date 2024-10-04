@@ -49,9 +49,9 @@ export const preferencesDesignSystemSetEnabled = createStandardAction(
   "PREFERENCES_DESIGN_SYSTEM_SET_ENABLED"
 )<{ isDesignSystemEnabled: boolean }>();
 
-export const preferencesAlternativeProfilePageEnabled = createStandardAction(
-  "PREFERENCES_ALTERNATIVE_PROFILE_PAGE_SET_ENABLED"
-)<{ isAlternativeProfilePageEnabled: boolean }>();
+export const preferencesNewProfilePageEnabled = createStandardAction(
+  "PREFERENCES_NEW_PROFILE_PAGE_SET_ENABLED"
+)<{ isNewProfilePageEnabled: boolean }>();
 
 export type PersistedPreferencesActions = ActionType<
   | typeof preferenceFingerprintIsEnabledSaveSuccess
@@ -65,5 +65,5 @@ export type PersistedPreferencesActions = ActionType<
   | typeof preferencesPnTestEnvironmentSetEnabled
   | typeof preferencesIdPayTestSetEnabled
   | typeof preferencesDesignSystemSetEnabled
-  | typeof preferencesAlternativeProfilePageEnabled
+  | typeof preferencesNewProfilePageEnabled
 >;

@@ -26,6 +26,7 @@ import ROUTES from "../../../navigation/routes";
 import { UserDataProcessingStatusEnum } from "../../../../definitions/backend/UserDataProcessingStatus";
 import { UserDataProcessingChoiceEnum } from "../../../../definitions/backend/UserDataProcessingChoice";
 import { deleteUserDataProcessing } from "../../../store/actions/userDataProcessing";
+import { isNewProfilePageEnabledSelector } from "../../../store/reducers/persistedPreferences";
 import { WalletEmptyScreenContent } from "./WalletEmptyScreenContent";
 import {
   WalletCardsCategoryContainer,
@@ -40,6 +41,9 @@ const WalletCardsContainer = () => {
   const { navigate } = useIONavigation();
   const dispatch = useIODispatch();
   const userDataProcessing = useIOSelector(userDataProcessingSelector);
+  const isNewProfilePageEnabled = useIOSelector(
+    isNewProfilePageEnabledSelector
+  );
   const isPendingDelete =
     pot.isSome(userDataProcessing.DELETE) &&
     userDataProcessing.DELETE.value?.status ===
@@ -91,23 +95,24 @@ const WalletCardsContainer = () => {
       layout={LinearTransition.duration(200)}
     >
       <View testID="walletCardsContainerTestID">
-        {isPendingDelete ? (
-          <ButtonSolid
-            label={I18n.t("profile.main.privacy.removeAccount.recover")}
-            color="primary"
-            onPress={handleRecoverAccountAlert}
-          />
-        ) : (
-          <ButtonSolid
-            label={I18n.t("profile.main.privacy.removeAccount.details.cta")}
-            color="danger"
-            onPress={() =>
-              navigate(ROUTES.PROFILE_NAVIGATOR, {
-                screen: ROUTES.PROFILE_REMOVE_ACCOUNT_INFO_ALTERNATIVE
-              })
-            }
-          />
-        )}
+        {isNewProfilePageEnabled &&
+          (isPendingDelete ? (
+            <ButtonSolid
+              label={I18n.t("profile.main.privacy.removeAccount.recover")}
+              color="primary"
+              onPress={handleRecoverAccountAlert}
+            />
+          ) : (
+            <ButtonSolid
+              label={I18n.t("profile.main.privacy.removeAccount.details.cta")}
+              color="danger"
+              onPress={() =>
+                navigate(ROUTES.PROFILE_NAVIGATOR, {
+                  screen: ROUTES.NEW_PROFILE_REMOVE_ACCOUNT_INFO
+                })
+              }
+            />
+          ))}
         <ItwCardsContainer isStacked={stackCards} />
         <OtherCardsContainer isStacked={stackCards} />
       </View>

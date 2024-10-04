@@ -1,16 +1,16 @@
 import { Banner, ContentWrapper, VSpacer } from "@pagopa/io-app-design-system";
 import React from "react";
-import I18n from "../../i18n";
-import { useIONavigation } from "../../navigation/params/AppParamsList";
-import ROUTES from "../../navigation/routes";
-import { IOScrollViewWithLargeHeader } from "../../components/ui/IOScrollViewWithLargeHeader";
-import { IOScrollViewActions } from "../../components/ui/IOScrollView";
+import I18n from "../../../i18n";
+import { useIONavigation } from "../../../navigation/params/AppParamsList";
+import ROUTES from "../../../navigation/routes";
+import { IOScrollViewWithLargeHeader } from "../../../components/ui/IOScrollViewWithLargeHeader";
+import { IOScrollViewActions } from "../../../components/ui/IOScrollView";
 
 /**
  * A screen to explain how the account removal works.
  * Here user can ask to delete his account
  */
-const RemoveAccountInfoAlternative = () => {
+const NewProfileRemoveAccountInfoScreen = () => {
   const { navigate } = useIONavigation();
 
   const actions: IOScrollViewActions = {
@@ -20,7 +20,7 @@ const RemoveAccountInfoAlternative = () => {
       accessibilityLabel: I18n.t("global.buttons.confirm"),
       onPress: () =>
         navigate(ROUTES.PROFILE_NAVIGATOR, {
-          screen: ROUTES.PROFILE_REMOVE_ACCOUNT_DETAILS_ALTERNATIVE
+          screen: ROUTES.NEW_PROFILE_REMOVE_ACCOUNT_DETAILS
         })
     },
     secondary: {
@@ -57,4 +57,4 @@ const RemoveAccountInfoAlternative = () => {
   );
 };
 
-export default RemoveAccountInfoAlternative;
+export default NewProfileRemoveAccountInfoScreen;

@@ -33,12 +33,12 @@ import ProfileMainScreen from "../screens/profile/ProfileMainScreen";
 import { useIOSelector } from "../store/hooks";
 import { isSettingsVisibleAndHideProfileSelector } from "../store/reducers/backendStatus";
 import { IOMarkdownPlayground } from "../screens/profile/playgrounds/IOMarkdownPlayground";
-import ProfileDataAlternativeScreen from "../screens/profile/ProfileDataAlternativeScreen";
-import RemoveAccountInfoAlternative from "../screens/profile/RemoveAccountInfoAlternativeScreen";
-import RemoveAccountDetailsAlternative from "../screens/profile/RemoveAccountDetailsAlternativeScreen";
-import RemoveAccountSuccessAlternative from "../screens/profile/RemoveAccountSuccessAlternativeScreen";
-import ROUTES from "./routes";
+import NewProfileDataScreen from "../features/newProfile/screens/NewProfileDataScreen";
+import NewProfileRemoveAccountSuccess from "../features/newProfile/screens/NewProfileRemoveAccountSuccessScreen";
+import NewProfileRemoveAccountInfo from "../features/newProfile/screens/NewProfileRemoveAccountInfoScreen";
+import NewProfileRemoveAccountDetails from "../features/newProfile/screens/NewProfileRemoveAccountDetailsScreen";
 import { ProfileParamsList } from "./params/ProfileParamsList";
+import ROUTES from "./routes";
 
 const Stack = createStackNavigator<ProfileParamsList>();
 
@@ -68,8 +68,8 @@ const ProfileStackNavigator = () => {
       )}
       <Stack.Screen name={ROUTES.PROFILE_DATA} component={ProfileDataScreen} />
       <Stack.Screen
-        name={ROUTES.PROFILE_DATA_ALTERNATIVE}
-        component={ProfileDataAlternativeScreen}
+        name={ROUTES.NEW_PROFILE_DATA}
+        component={NewProfileDataScreen}
       />
       <Stack.Screen
         name={ROUTES.PROFILE_PRIVACY_MAIN}
@@ -196,19 +196,19 @@ const ProfileStackNavigator = () => {
         component={NotificationsPreferencesScreen}
       />
       <Stack.Screen
-        name={ROUTES.PROFILE_REMOVE_ACCOUNT_INFO_ALTERNATIVE}
-        component={RemoveAccountInfoAlternative}
+        name={ROUTES.NEW_PROFILE_REMOVE_ACCOUNT_INFO}
+        component={NewProfileRemoveAccountInfo}
       />
       <Stack.Screen
-        name={ROUTES.PROFILE_REMOVE_ACCOUNT_DETAILS_ALTERNATIVE}
-        component={RemoveAccountDetailsAlternative}
+        name={ROUTES.NEW_PROFILE_REMOVE_ACCOUNT_DETAILS}
+        component={NewProfileRemoveAccountDetails}
       />
       <Stack.Screen
         options={{
           headerShown: false
         }}
-        name={ROUTES.PROFILE_REMOVE_ACCOUNT_SUCCESS_ALTERNATIVE}
-        component={RemoveAccountSuccessAlternative}
+        name={ROUTES.NEW_PROFILE_REMOVE_ACCOUNT_SUCCESS}
+        component={NewProfileRemoveAccountSuccess}
       />
     </Stack.Navigator>
   );

@@ -9,32 +9,32 @@ import React, { useCallback, useEffect, useMemo } from "react";
 import { SafeAreaView } from "react-native";
 import { pipe } from "fp-ts/lib/function";
 import * as O from "fp-ts/lib/Option";
-import { IOStyles } from "../../components/core/variables/IOStyles";
-import I18n from "../../i18n";
+import { IOStyles } from "../../../components/core/variables/IOStyles";
+import I18n from "../../../i18n";
 
-import { useIODispatch, useIOSelector } from "../../store/hooks";
-import { IOScrollViewWithLargeHeader } from "../../components/ui/IOScrollViewWithLargeHeader";
-import { useIONavigation } from "../../navigation/params/AppParamsList";
-import ROUTES from "../../navigation/routes";
+import { useIODispatch, useIOSelector } from "../../../store/hooks";
+import { IOScrollViewWithLargeHeader } from "../../../components/ui/IOScrollViewWithLargeHeader";
+import { useIONavigation } from "../../../navigation/params/AppParamsList";
+import ROUTES from "../../../navigation/routes";
 import {
   dateOfBirthSelector,
   profileEmailSelector,
   profileFiscalCodeSelector,
   profileNameSurnameSelector
-} from "../../store/reducers/profile";
-import { formatDateAsShortFormat } from "../../utils/dates";
+} from "../../../store/reducers/profile";
+import { formatDateAsShortFormat } from "../../../utils/dates";
 import {
   isUserDataProcessingDeleteErrorSelector,
   isUserDataProcessingDeleteLoadingSelector
-} from "../../store/reducers/userDataProcessing";
-import LoadingSpinnerOverlay from "../../components/LoadingSpinnerOverlay";
-import { FooterActions } from "../../components/ui/FooterActions";
-import { requestAccountDeletion } from "../../store/actions/profile";
+} from "../../../store/reducers/userDataProcessing";
+import LoadingSpinnerOverlay from "../../../components/LoadingSpinnerOverlay";
+import { FooterActions } from "../../../components/ui/FooterActions";
+import { requestAccountDeletion } from "../../../store/actions/profile";
 /**
  * A screen that ask user the motivation of the account removal
  * Here user can ask to delete his account
  */
-const RemoveAccountDetailsAlternative = () => {
+const NewProfileRemoveAccountDetailsScreen = () => {
   const { navigate } = useIONavigation();
 
   const profileEmail = useIOSelector(profileEmailSelector);
@@ -173,4 +173,4 @@ const RemoveAccountDetailsAlternative = () => {
   );
 };
 
-export default RemoveAccountDetailsAlternative;
+export default NewProfileRemoveAccountDetailsScreen;
