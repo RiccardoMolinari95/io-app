@@ -19,8 +19,12 @@ import {
   isNewPaymentSectionEnabledSelector,
   isSettingsVisibleAndHideProfileSelector
 } from "../store/reducers/backendStatus";
-import { isDesignSystemEnabledSelector } from "../store/reducers/persistedPreferences";
 import { StartupStatusEnum, isStartupLoaded } from "../store/reducers/startup";
+import {
+  isDesignSystemEnabledSelector,
+  isNewProfilePageEnabledSelector
+} from "../store/reducers/persistedPreferences";
+import NewProfileDataScreen from "../features/newProfile/screens/NewProfileDataScreen";
 import { HeaderFirstLevelHandler } from "./components/HeaderFirstLevelHandler";
 import { useIONavigation } from "./params/AppParamsList";
 import { MainTabParamsList } from "./params/MainTabParamsList";
@@ -47,6 +51,9 @@ export const MainTabNavigator = () => {
   };
 
   const tabBarStyle = useBottomTabNavigatorStyle();
+  const isNewProfilePageEnabled = useIOSelector(
+    isNewProfilePageEnabledSelector
+  );
 
   return (
     <LoadingSpinnerOverlay
@@ -162,10 +169,10 @@ export const MainTabNavigator = () => {
             )
           }}
         />
-        {!isSettingsVisibleAndHideProfile && (
+        {isNewProfilePageEnabled && (
           <Tab.Screen
             name={ROUTES.PROFILE_MAIN}
-            component={ProfileMainScreen}
+            component={NewProfileDataScreen}
             options={{
               title: I18n.t("global.navigator.profile"),
               tabBarIcon: ({ color, focused }) => (
@@ -174,6 +181,23 @@ export const MainTabNavigator = () => {
                   iconNameFocused="navProfileFocused"
                   color={color}
                   focused={focused}
+                />
+              )
+            }}
+          />
+        )}
+        {!isSettingsVisibleAndHideProfile && (
+          <Tab.Screen
+            name={ROUTES.PROFILE_MAIN}
+            component={ProfileMainScreen}
+            options={{
+              title: I18n.t("global.navigator.profile"),
+              tabBarIcon: ({ color }) => (
+                <TabIconComponent
+                  iconName="navProfile"
+                  iconNameFocused="navProfileFocused"
+                  color={color}
+                  focused={false}
                 />
               )
             }}

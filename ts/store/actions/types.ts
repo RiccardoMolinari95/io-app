@@ -32,6 +32,7 @@ import { FimsActions } from "../../features/fims/common/store/actions";
 import { ItwActions } from "../../features/itwallet/common/store/actions";
 import { TrialSystemActions } from "../../features/trialSystem/store/actions";
 import { ProfileSettingsActions } from "../../features/profileSettings/store/actions";
+import { NewProfileActions } from "../../features/newProfile/store/actions/newProfile";
 import { AnalyticsActions } from "./analytics";
 import { ApplicationActions } from "./application";
 import { AuthenticationActions } from "./authentication";
@@ -73,6 +74,7 @@ export type Action =
   | PreferencesActions
   | PersistedPreferencesActions
   | ProfileActions
+  | NewProfileActions
   | ServicesActions
   | WalletActions
   | ContentActions
