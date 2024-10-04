@@ -4,7 +4,7 @@ import I18n from "../../../i18n";
 import { useIONavigation } from "../../../navigation/params/AppParamsList";
 import ROUTES from "../../../navigation/routes";
 import { IOScrollViewWithLargeHeader } from "../../../components/ui/IOScrollViewWithLargeHeader";
-import { IOScrollViewActions } from "../../../components/ui/IOScrollView";
+import { FooterActions } from "../../../components/ui/FooterActions";
 
 /**
  * A screen to explain how the account removal works.
@@ -13,47 +13,49 @@ import { IOScrollViewActions } from "../../../components/ui/IOScrollView";
 const NewProfileRemoveAccountInfoScreen = () => {
   const { navigate } = useIONavigation();
 
-  const actions: IOScrollViewActions = {
-    type: "TwoButtons",
-    primary: {
-      label: I18n.t("global.buttons.confirm"),
-      accessibilityLabel: I18n.t("global.buttons.confirm"),
-      onPress: () =>
-        navigate(ROUTES.PROFILE_NAVIGATOR, {
-          screen: ROUTES.NEW_PROFILE_REMOVE_ACCOUNT_DETAILS
-        })
-    },
-    secondary: {
-      label: I18n.t("global.buttons.cancel"),
-      accessibilityLabel: I18n.t("global.buttons.cancel"),
-      onPress: () =>
-        navigate(ROUTES.MAIN, {
-          screen: ROUTES.WALLET_HOME,
-          params: { newMethodAdded: false }
-        })
-    }
-  };
-
   return (
-    <IOScrollViewWithLargeHeader
-      title={{
-        label: I18n.t("profile.main.privacy.removeAccount.info.title")
-      }}
-      description={I18n.t(
-        "profile.main.privacy.removeAccount.info.description"
-      )}
-      actions={actions}
-    >
-      <VSpacer size={8} />
-      <ContentWrapper>
-        <Banner
-          color="neutral"
-          size="big"
-          pictogramName="attention"
-          content={I18n.t("profile.main.privacy.removeAccount.info.banner")}
-        />
-      </ContentWrapper>
-    </IOScrollViewWithLargeHeader>
+    <>
+      <IOScrollViewWithLargeHeader
+        title={{
+          label: I18n.t("profile.main.privacy.removeAccount.info.title")
+        }}
+        description={I18n.t(
+          "profile.main.privacy.removeAccount.info.description"
+        )}
+      >
+        <VSpacer size={8} />
+        <ContentWrapper>
+          <Banner
+            color="neutral"
+            size="big"
+            pictogramName="attention"
+            content={I18n.t("profile.main.privacy.removeAccount.info.banner")}
+          />
+        </ContentWrapper>
+      </IOScrollViewWithLargeHeader>
+      <FooterActions
+        fixed={false}
+        actions={{
+          type: "TwoButtons",
+          primary: {
+            label: I18n.t("global.buttons.confirm"),
+            accessibilityLabel: I18n.t("global.buttons.confirm"),
+            onPress: () =>
+              navigate(ROUTES.PROFILE_NAVIGATOR, {
+                screen: ROUTES.NEW_PROFILE_REMOVE_ACCOUNT_DETAILS
+              })
+          },
+          secondary: {
+            label: I18n.t("global.buttons.cancel"),
+            onPress: () =>
+              navigate(ROUTES.MAIN, {
+                screen: ROUTES.WALLET_HOME,
+                params: { newMethodAdded: false }
+              })
+          }
+        }}
+      />
+    </>
   );
 };
 
