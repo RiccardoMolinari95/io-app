@@ -115,6 +115,7 @@ import {
 import { checkNotificationsPreferencesSaga } from "../features/pushNotifications/sagas/checkNotificationsPreferencesSaga";
 import { cancellAllLocalNotifications } from "../features/pushNotifications/utils";
 import { handleApplicationStartupTransientError } from "../features/startup/sagas";
+import { watchNewProfileRequest } from "../features/newProfile/sagas";
 import {
   clearKeychainError,
   keychainError
@@ -424,6 +425,9 @@ export function* initializeApplicationSaga(
 
   // Start watching for requests of refresh the profile
   yield* fork(watchProfileRefreshRequestsSaga, backendClient.getProfile);
+
+  // Start watching for requests of new profile
+  yield* fork(watchNewProfileRequest, backendClient.getNewProfile);
 
   // Start watching for requests about session and support token
   yield* fork(

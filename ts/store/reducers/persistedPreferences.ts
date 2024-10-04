@@ -19,7 +19,8 @@ import {
   serviceAlertDisplayedOnceSuccess,
   preferencesPnTestEnvironmentSetEnabled,
   preferencesIdPayTestSetEnabled,
-  preferencesDesignSystemSetEnabled
+  preferencesDesignSystemSetEnabled,
+  preferencesNewProfilePageEnabled
 } from "../actions/persistedPreferences";
 import { Action } from "../actions/types";
 import { differentProfileLoggedIn } from "../actions/crossSessions";
@@ -44,6 +45,7 @@ export type PersistedPreferencesState = Readonly<{
   // changing the variable value later). Typescript cannot detect this so
   // be sure to handle such case when reading and using this value
   isDesignSystemEnabled: boolean;
+  isNewProfilePageEnabled: boolean;
 }>;
 
 export const initialPreferencesState: PersistedPreferencesState = {
@@ -57,7 +59,8 @@ export const initialPreferencesState: PersistedPreferencesState = {
   isMixpanelEnabled: null,
   isPnTestEnabled: false,
   isIdPayTestEnabled: false,
-  isDesignSystemEnabled: false
+  isDesignSystemEnabled: false,
+  isNewProfilePageEnabled: false
 };
 
 export default function preferencesReducer(
@@ -153,6 +156,13 @@ export default function preferencesReducer(
     };
   }
 
+  if (isActionOf(preferencesNewProfilePageEnabled, action)) {
+    return {
+      ...state,
+      isNewProfilePageEnabled: action.payload.isNewProfilePageEnabled
+    };
+  }
+
   return state;
 }
 
@@ -186,6 +196,9 @@ export const isPnTestEnabledSelector = (state: GlobalState) =>
 
 export const isIdPayTestEnabledSelector = (state: GlobalState) =>
   !!state.persistedPreferences?.isIdPayTestEnabled;
+
+export const isNewProfilePageEnabledSelector = (state: GlobalState) =>
+  state.persistedPreferences.isNewProfilePageEnabled;
 
 // 'isDesignSystemEnabled' has been introduced without a migration
 // (PR https://github.com/pagopa/io-app/pull/4427) so there are cases
