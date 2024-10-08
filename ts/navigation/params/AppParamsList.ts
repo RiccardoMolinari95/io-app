@@ -68,6 +68,7 @@ import { UAWebviewScreenNavigationParams } from "../../features/uaDonations/scre
 import { ZendeskParamsList } from "../../features/zendesk/navigation/params";
 import ZENDESK_ROUTES from "../../features/zendesk/navigation/routes";
 import ROUTES from "../routes";
+import { NewProfileParamsList } from "../../features/newProfile/navigation/params/NewProfileParamsList";
 import { AuthenticationParamsList } from "./AuthenticationParamsList";
 import { CheckEmailParamsList } from "./CheckEmailParamsList";
 import { MainTabParamsList } from "./MainTabParamsList";
@@ -90,6 +91,7 @@ export type AppParamsList = {
   [SERVICES_ROUTES.SERVICES_NAVIGATOR]: NavigatorScreenParams<ServicesParamsList>;
   [SERVICES_ROUTES.SEARCH]: undefined;
   [ROUTES.PROFILE_NAVIGATOR]: NavigatorScreenParams<ProfileParamsList>;
+  [ROUTES.NEW_PROFILE_NAVIGATOR]: NavigatorScreenParams<NewProfileParamsList>;
 
   [ROUTES.BARCODE_SCAN]: undefined;
 

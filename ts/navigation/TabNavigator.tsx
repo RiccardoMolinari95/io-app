@@ -51,6 +51,7 @@ export const MainTabNavigator = () => {
   };
 
   const tabBarStyle = useBottomTabNavigatorStyle();
+
   const isNewProfilePageEnabled = useIOSelector(
     isNewProfilePageEnabledSelector
   );

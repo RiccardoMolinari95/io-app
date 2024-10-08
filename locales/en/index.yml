@@ -332,6 +332,7 @@ profile:
         title: Delete your profile
         description: Delete your account and your personal data
         error: An error occurred while submit your deletion request, please retry!
+        recover: Recover profile
         alert:
           activeBonusTitle: Delete your profile
           activeBonusDescription: "It seems that you have joined some initiatives on IO. Deleting your profile will not remove your subscriptions to the initiatives you have joined.\n\nTo manage them, go to the Portfolio section, otherwise choose 'Delete'"
@@ -355,7 +356,9 @@ profile:
           cta: Delete
         details:
           title: Why delete your IO profile?
+          alternativeTitle: Confirm remove profile
           body: Please tell us why you're deleting your profile so we can improve. If you don't want to share why, just click 'Delete your profile'”.
+          alternativeBody: Summary of personal data that you will lose by clicking on "Delete".
           question: What is the reason?
           answer_1: I no longer consider "IO" useful
           answer_2: I don't feel safe on IO
