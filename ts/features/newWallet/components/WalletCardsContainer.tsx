@@ -107,7 +107,7 @@ const WalletCardsContainer = () => {
               label={I18n.t("profile.main.privacy.removeAccount.details.cta")}
               color="danger"
               onPress={() =>
-                navigate(ROUTES.PROFILE_NAVIGATOR, {
+                navigate(ROUTES.NEW_PROFILE_NAVIGATOR, {
                   screen: ROUTES.NEW_PROFILE_REMOVE_ACCOUNT_INFO
                 })
               }

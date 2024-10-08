@@ -34,9 +34,6 @@ import { useIOSelector } from "../store/hooks";
 import { isSettingsVisibleAndHideProfileSelector } from "../store/reducers/backendStatus";
 import { IOMarkdownPlayground } from "../screens/profile/playgrounds/IOMarkdownPlayground";
 import NewProfileDataScreen from "../features/newProfile/screens/NewProfileDataScreen";
-import NewProfileRemoveAccountSuccess from "../features/newProfile/screens/NewProfileRemoveAccountSuccessScreen";
-import NewProfileRemoveAccountInfo from "../features/newProfile/screens/NewProfileRemoveAccountInfoScreen";
-import NewProfileRemoveAccountDetails from "../features/newProfile/screens/NewProfileRemoveAccountDetailsScreen";
 import { ProfileParamsList } from "./params/ProfileParamsList";
 import ROUTES from "./routes";
 
@@ -194,21 +191,6 @@ const ProfileStackNavigator = () => {
       <Stack.Screen
         name={ROUTES.PROFILE_PREFERENCES_NOTIFICATIONS}
         component={NotificationsPreferencesScreen}
-      />
-      <Stack.Screen
-        name={ROUTES.NEW_PROFILE_REMOVE_ACCOUNT_INFO}
-        component={NewProfileRemoveAccountInfo}
-      />
-      <Stack.Screen
-        name={ROUTES.NEW_PROFILE_REMOVE_ACCOUNT_DETAILS}
-        component={NewProfileRemoveAccountDetails}
-      />
-      <Stack.Screen
-        options={{
-          headerShown: false
-        }}
-        name={ROUTES.NEW_PROFILE_REMOVE_ACCOUNT_SUCCESS}
-        component={NewProfileRemoveAccountSuccess}
       />
     </Stack.Navigator>
   );

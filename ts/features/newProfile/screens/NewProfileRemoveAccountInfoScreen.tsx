@@ -41,7 +41,7 @@ const NewProfileRemoveAccountInfoScreen = () => {
             label: I18n.t("global.buttons.confirm"),
             accessibilityLabel: I18n.t("global.buttons.confirm"),
             onPress: () =>
-              navigate(ROUTES.PROFILE_NAVIGATOR, {
+              navigate(ROUTES.NEW_PROFILE_NAVIGATOR, {
                 screen: ROUTES.NEW_PROFILE_REMOVE_ACCOUNT_DETAILS
               })
           },

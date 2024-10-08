@@ -46,7 +46,7 @@ const NewProfileDataScreen = () => {
   }, [dispatch]);
 
   const handleSwitchValueChange = useCallback(() => {
-    navigate(ROUTES.PROFILE_NAVIGATOR, {
+    navigate(ROUTES.NEW_PROFILE_NAVIGATOR, {
       screen: ROUTES.NEW_PROFILE_REMOVE_ACCOUNT_INFO
     });
   }, [navigate]);
