@@ -1,5 +1,5 @@
 /**
- * A reducer for the alternative Profile.
+ * A reducer for the new Profile.
  */
 import * as pot from "@pagopa/ts-commons/lib/pot";
 import { getType } from "typesafe-actions";

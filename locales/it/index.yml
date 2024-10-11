@@ -332,6 +332,7 @@ profile:
         title: Elimina il tuo profilo
         description: Elimina il tuo profilo e i tuoi dati personali
         error: Si è verificato un errore nella richiesta di rimozione dell'account, riprova.
+        recover: Recupera profilo
         alert:
           activeBonusTitle: Elimina il tuo profilo
           activeBonusDescription: "Sembra che tu abbia aderito ad alcune iniziative presenti su IO. Se elimini il tuo profilo, l’iscrizione a eventuali iniziative a cui hai aderito non verrà cancellata\n\nPer gestirle, vai alla sezione Portafoglio, altrimenti scegli “Elimina”"
@@ -355,7 +356,9 @@ profile:
           cta: Procedi con l’eliminazione
         details:
           title: Perché vuoi eliminare il tuo profilo su IO?
+          alternativeTitle: Conferma rimuovi profilo
           body: Ci piacerebbe sapere perché stai eliminando il tuo profilo, così da poter migliorare in futuro. Se preferisci non condividere il motivo, salta questo passaggio e premi su “Elimina il tuo profilo”.
+          alternativeBody: Riepilogo dei dati personali che perderai cliccando su "Procedi con l'eliminazione".
           question: Qual è il motivo?
           answer_1: Non ritengo più utile IO
           answer_2: Non mi sento al sicuro su IO

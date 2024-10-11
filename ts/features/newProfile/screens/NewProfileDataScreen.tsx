@@ -8,9 +8,9 @@ import {
   ListItemSwitch,
   VSpacer
 } from "@pagopa/io-app-design-system";
-import React, { useEffect, useMemo } from "react";
+import React, { useCallback, useEffect, useMemo } from "react";
 import * as pot from "@pagopa/ts-commons/lib/pot";
-import { Alert, View } from "react-native";
+import { View } from "react-native";
 import { capitalize } from "lodash";
 import { useIODispatch, useIOSelector } from "../../../store/hooks";
 import { ContextualHelpPropsMarkdown } from "../../../components/screens/BaseScreenComponent";
@@ -22,6 +22,8 @@ import { newProfileLoadRequest } from "../store/actions/newProfile";
 import I18n from "../../../i18n";
 import { userDataProcessingSelector } from "../../../store/reducers/userDataProcessing";
 import { UserDataProcessingStatusEnum } from "../../../../definitions/backend/UserDataProcessingStatus";
+import ROUTES from "../../../navigation/routes";
+import { useIONavigation } from "../../../navigation/params/AppParamsList";
 
 const contextualHelpMarkdown: ContextualHelpPropsMarkdown = {
   title: "profile.preferences.contextualHelpTitle",
@@ -29,6 +31,7 @@ const contextualHelpMarkdown: ContextualHelpPropsMarkdown = {
 };
 
 const NewProfileDataScreen = () => {
+  const { navigate } = useIONavigation();
   const profileSelector = useIOSelector(newProfileSelector);
   const userDataProcessing = useIOSelector(userDataProcessingSelector);
   const dispatch = useIODispatch();
@@ -42,18 +45,22 @@ const NewProfileDataScreen = () => {
     dispatch(newProfileLoadRequest());
   }, [dispatch]);
 
+  const handleSwitchValueChange = useCallback(() => {
+    navigate(ROUTES.NEW_PROFILE_NAVIGATOR, {
+      screen: ROUTES.NEW_PROFILE_REMOVE_ACCOUNT_INFO
+    });
+  }, [navigate]);
+
   const switchItems = useMemo(
     () => [
       {
         label: I18n.t("profile.data.deletion.status"),
         value: !isNoneDelete && isPendingDelete,
-        onSwitchValueChange: () => {
-          Alert.alert("Alert", "No Action triggered at the moment");
-        },
+        onSwitchValueChange: handleSwitchValueChange,
         disabled: isPendingDelete
       }
     ],
-    [isNoneDelete, isPendingDelete]
+    [isNoneDelete, isPendingDelete, handleSwitchValueChange]
   );
 
   const renderProfileInfo = () => {
@@ -82,9 +89,10 @@ const NewProfileDataScreen = () => {
     }
 
     if (pot.isSome(profileSelector) && profileSelector.value) {
-
       const profile = profileSelector.value;
-      const nameAndSurname = capitalize(`${profile.name} ${profile.familyName}`);
+      const nameAndSurname = capitalize(
+        `${profile.name} ${profile.familyName}`
+      );
       const fiscalCode = profile.fiscalCode;
       const email = profile.email;
       const birthDate = profile.dateOfBirth;

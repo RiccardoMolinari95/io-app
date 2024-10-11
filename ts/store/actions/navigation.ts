@@ -179,7 +179,7 @@ export const navigateToLogout = () =>
 export const navigateToRemoveAccountSuccess = () =>
   NavigationService.dispatchNavigationAction(
     CommonActions.navigate(ROUTES.PROFILE_NAVIGATOR, {
-      screen: ROUTES.PROFILE_REMOVE_ACCOUNT_SUCCESS
+      screen: ROUTES.NEW_PROFILE_REMOVE_ACCOUNT_SUCCESS
     })
   );
 
